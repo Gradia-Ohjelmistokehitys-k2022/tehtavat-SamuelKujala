@@ -1,4 +1,4 @@
-namespace Lopputyö_T3
+namespace LoppuHomma
 {
     internal static class Program
     {
