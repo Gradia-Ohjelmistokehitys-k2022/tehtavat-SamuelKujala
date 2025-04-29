@@ -17,7 +17,7 @@ namespace LoppuHomma.Controller
         }
         public DateTime ParseStartDayTxTBox()
         {
-             DateTime first = DateTime.Parse(textbox1.Text);
+            DateTime first = DateTime.Parse(textbox1.Text);
 
             return first;
         }
@@ -33,6 +33,14 @@ namespace LoppuHomma.Controller
         {
             DateTimeOffset date = new DateTimeOffset(dateTime);
             return date.ToUnixTimeSeconds().ToString();
+        }
+
+        public DateTime ParseUnixToTime(double unixtime)
+        {
+            long unix = (long)unixtime;
+
+            DateTime date = DateTimeOffset.FromUnixTimeMilliseconds(unix).DateTime;
+            return date;
         }
     }
 }

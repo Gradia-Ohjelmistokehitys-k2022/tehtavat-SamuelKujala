@@ -11,7 +11,7 @@ namespace LoppuHomma
 {
     public partial class Form1 : Form
     {
-        ButtonController? buttonController;
+        AllButtonsController? allButtonsController;
         public Form1()
         {
             InitializeComponent();
@@ -26,15 +26,18 @@ namespace LoppuHomma
 
         private async void btnFind_Click(object sender, EventArgs e)
         {
-            buttonController = new ButtonController(textBox1, textBox2);
+            allButtonsController = new AllButtonsController(textBox1, textBox2);
 
             if (DateTime.Parse(textBox1.Text) >  DateTime.Now.AddDays(-362))
             {
-                await buttonController.FindButton();
+                await allButtonsController.FindButtonController();
             }
-            MessageBox.Show("Et voi hakea noin vanhaa dataa");
-            textBox1.Clear();
-            textBox2.Clear();
+            else
+            {
+                MessageBox.Show("Et voi hakea noin vanhaa dataa");
+                textBox1.Clear();
+                textBox2.Clear();
+            }
         }     
     }
 }

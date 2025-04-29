@@ -8,9 +8,9 @@ namespace LoppuHomma.Model
 {
     public class BitcoinData
     {
-        public List<List<double>> market_caps { get; set; }
-        public List<List<double>> prices { get; set; }
-        public List<List<double>> total_volumes { get; set; }
+        public List<List<object>> market_caps { get; set; }
+        public List<List<object>> prices { get; set; }
+        public List<List<object>> total_volumes { get; set; }
     }
 }
 
