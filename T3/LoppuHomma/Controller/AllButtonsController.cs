@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LoppuHomma.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,28 +12,42 @@ namespace LoppuHomma.Controller
         DateTimeParse? datetime;
         ApiController? apiController;
         ButtonController? ButtonController;
+        TaskAndTaskB TaskAndTaskB;
+        TaskC task_C;
 
         TextBox textBox1 = new TextBox();
         TextBox textBox2 = new TextBox();
-
-        public AllButtonsController(TextBox textBox1, TextBox textBox2)
+        ComboBox comboBox = new ComboBox();
+        DataGridView datagrid = new DataGridView();
+        public AllButtonsController(TextBox textBox1, TextBox textBox2, ComboBox comboBox, DataGridView datagrid)
         {
             this.textBox1 = textBox1;
             this.textBox2 = textBox2;
+            this.comboBox = comboBox;
+            this.datagrid = datagrid;
         }
 
         public async Task FindButtonController()
         {
             ButtonController = new ButtonController();
             datetime = new DateTimeParse(textBox1, textBox2);
-            apiController = new ApiController(textBox1, textBox2);
+            apiController = new ApiController(textBox1, textBox2, comboBox, datagrid);
 
 
             string returnvalue = ButtonController.FindButton(datetime, apiController);
-
+            
             string[] strings = returnvalue.Split(',');
 
-            await apiController.ApiValues(strings[0], strings[1]);
+            BitcoinData? data = await apiController.ApiValues(strings[0], strings[1]);
+
+            if (data == null)
+            {
+                MessageBox.Show("Error");
+            }
+            else
+            {
+                GetThingWhatWantToDo(data);
+            }
         }
 
         public DateTime ParseStartDayTxTBoxController()
@@ -55,7 +70,7 @@ namespace LoppuHomma.Controller
             return datetime.DateTimeToUnix(date);
         }
 
-        public DateTime ParseUnixToTimeController(double unixtime)
+        public DateTime ParseUnixToTimeController(object unixtime)
         {
             datetime = new DateTimeParse(textBox1, textBox2);
             return datetime.ParseUnixToTime(unixtime);
@@ -63,6 +78,44 @@ namespace LoppuHomma.Controller
 
         // APICONTROLLER
 
+        public void GetThingWhatWantToDo(BitcoinData data)
+        {
+            TaskAndTaskB = new TaskAndTaskB(textBox1, textBox2, comboBox, datagrid);
+            task_C = new TaskC(textBox1, textBox2, comboBox, datagrid);
+
+            int index = comboBox.SelectedIndex;
+            switch (index)
+            {
+                case 1:
+                    TaskAndTaskB.CreateRowToTaskAAndB();
+                    TaskAndTaskB.GetLowestAndBiggestPrice(data);
+                    ClearAll();
+                    break;
+                case 2:
+                    TaskAndTaskB.CreateRowToTaskAAndB();
+                    TaskAndTaskB.GetLowestAndBiggestVolume(data);
+                    ClearAll();
+                    break;
+                case 3:
+                    task_C.CreateRowToTaskC();
+                    task_C.PisinLasku(data);
+                    task_C.PisinNousu(data);
+                    ClearAll();
+                    break;
+                case 4:
+                    MessageBox.Show("Kesken");
+                    break;
+            }
+
+            
+        }
+
+        public void ClearAll()
+        {
+            textBox1.Text = string.Empty;
+            textBox2.Text = string.Empty;
+            comboBox.SelectedIndex = 0;
+        }
 
     }
 }

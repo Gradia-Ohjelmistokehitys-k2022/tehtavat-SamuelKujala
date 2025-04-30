@@ -35,7 +35,7 @@ namespace LoppuHomma.Controller
             return date.ToUnixTimeSeconds().ToString();
         }
 
-        public DateTime ParseUnixToTime(double unixtime)
+        public DateTime ParseUnixToTime(object unixtime)
         {
             long unix = (long)unixtime;
 
