@@ -7,21 +7,15 @@ using System.Threading.Tasks;
 
 namespace LoppuHomma.Controller
 {
-    public class TaskC
+    public class TaskC(TextBox textbox1, TextBox textbox2, ComboBox comboBox, DataGridView datagrid)
     {
         AllButtonsController? controller;
-        TextBox textbox1 = new TextBox();
-        TextBox textbox2 = new TextBox();
-        ComboBox comboBox = new ComboBox();
-        DataGridView datagrid = new DataGridView();
 
-        public TaskC(TextBox textbox1, TextBox textbox2, ComboBox comboBox, DataGridView datagrid)
-        {
-            this.textbox1 = textbox1;
-            this.textbox2 = textbox2;
-            this.comboBox = comboBox;
-            this.datagrid = datagrid;
-        }
+        private readonly TextBox textbox1 = textbox1;
+        private readonly TextBox textbox2 = textbox2;
+        private readonly ComboBox comboBox = comboBox;
+        private readonly DataGridView datagrid = datagrid;
+
         public void CreateRowToTaskC()
         {
             datagrid.Columns.Add("Tyyppi", "Tyyppi");
@@ -43,7 +37,7 @@ namespace LoppuHomma.Controller
             DateTime? Top_EndingDate = null;
 
 
-            foreach (var item in data.prices)
+            foreach (var item in data.Prices)
             {
                 DateTime timestamp = controller.ParseUnixToTimeController(item[0]);
                 double volume = Convert.ToDouble(item[1]);
@@ -78,7 +72,7 @@ namespace LoppuHomma.Controller
             {
                 Top_Streak = Current_streak;
                 Top_StartingDate = Current_StartingDate;
-                Top_EndingDate = controller.ParseUnixToTimeController(data.prices.Last()[0]);
+                Top_EndingDate = controller.ParseUnixToTimeController(data.Prices.Last()[0]);
             }
 
             datagrid.Rows.Add("Hinta lasku:", Top_Streak.ToString(), Top_StartingDate?.ToString("yyyy-MM-dd"), Top_EndingDate?.ToString("yyyy-MM-dd"));
@@ -97,7 +91,7 @@ namespace LoppuHomma.Controller
             DateTime? Top_EndingDate = null;
 
 
-            foreach (var item in data.prices)
+            foreach (var item in data.Prices)
             {
                 DateTime timestamp = controller.ParseUnixToTimeController(item[0]);
                 double volume = Convert.ToDouble(item[1]);
@@ -132,7 +126,7 @@ namespace LoppuHomma.Controller
             {
                 Top_Streak = Current_streak;
                 Top_StartingDate = Current_StartingDate;
-                Top_EndingDate = controller.ParseUnixToTimeController(data.prices.Last()[0]);
+                Top_EndingDate = controller.ParseUnixToTimeController(data.Prices.Last()[0]);
             }
 
             datagrid.Rows.Add("Hinta nousu:", Top_Streak.ToString(), Top_StartingDate?.ToString("yyyy-MM-dd"), Top_EndingDate?.ToString("yyyy-MM-dd"));

@@ -23,7 +23,7 @@ namespace LoppuHomma
         }
 
 
-        private async void btnFind_Click(object sender, EventArgs e)
+        private async void BtnFind_Click(object sender, EventArgs e)
         {
             int index = comboBox1.SelectedIndex;
 
@@ -50,7 +50,7 @@ namespace LoppuHomma
                 return;
             }
 
-            if (dataGridView1.Rows.Count > 0 ) 
+            if (dataGridView1.Rows.Count > 0)
             {
                 dataGridView1.Rows.Clear();
                 dataGridView1.Columns.Clear();
@@ -58,8 +58,8 @@ namespace LoppuHomma
             }
             allButtonsController = new AllButtonsController(textBox1, textBox2, comboBox1, dataGridView1);
             await allButtonsController.FindButtonController();
-        }   
-        
+        }
+
         public void ComboBoxAppendItems()
         {
             comboBox1.Items.Insert(0, "-- Valitse --");

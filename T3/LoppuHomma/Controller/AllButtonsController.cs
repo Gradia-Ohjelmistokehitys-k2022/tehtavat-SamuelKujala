@@ -1,4 +1,5 @@
-﻿using LoppuHomma.Model;
+﻿using LoppuHomma.Controller.Task_A_C;
+using LoppuHomma.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,25 +8,19 @@ using System.Threading.Tasks;
 
 namespace LoppuHomma.Controller
 {
-    public class AllButtonsController
+    public class AllButtonsController(TextBox TextBox1, TextBox TextBox2, ComboBox ComboBox, DataGridView Datagrid)
     {
         DateTimeParse? datetime;
         ApiController? apiController;
         ButtonController? ButtonController;
-        TaskAndTaskB TaskAndTaskB;
-        TaskC task_C;
+        TaskAndTaskB? TaskAndTaskB;
+        TaskC? task_C;
+        TaskD? task_D;
 
-        TextBox textBox1 = new TextBox();
-        TextBox textBox2 = new TextBox();
-        ComboBox comboBox = new ComboBox();
-        DataGridView datagrid = new DataGridView();
-        public AllButtonsController(TextBox textBox1, TextBox textBox2, ComboBox comboBox, DataGridView datagrid)
-        {
-            this.textBox1 = textBox1;
-            this.textBox2 = textBox2;
-            this.comboBox = comboBox;
-            this.datagrid = datagrid;
-        }
+        private readonly TextBox textBox1 = TextBox1;
+        private readonly TextBox textBox2 = TextBox2;
+        private readonly ComboBox comboBox = ComboBox;
+        private readonly DataGridView datagrid = Datagrid;
 
         public async Task FindButtonController()
         {
@@ -34,7 +29,7 @@ namespace LoppuHomma.Controller
             apiController = new ApiController(textBox1, textBox2, comboBox, datagrid);
 
 
-            string returnvalue = ButtonController.FindButton(datetime, apiController);
+            string returnvalue = ButtonController.FindButton(datetime);
             
             string[] strings = returnvalue.Split(',');
 
@@ -82,6 +77,8 @@ namespace LoppuHomma.Controller
         {
             TaskAndTaskB = new TaskAndTaskB(textBox1, textBox2, comboBox, datagrid);
             task_C = new TaskC(textBox1, textBox2, comboBox, datagrid);
+            task_D = new TaskD(textBox1, textBox2, comboBox, datagrid);
+            
 
             int index = comboBox.SelectedIndex;
             switch (index)
@@ -103,7 +100,7 @@ namespace LoppuHomma.Controller
                     ClearAll();
                     break;
                 case 4:
-                    MessageBox.Show("Kesken");
+                    task_D.GetBestDateToSellOrBuy(data);
                     break;
             }
 

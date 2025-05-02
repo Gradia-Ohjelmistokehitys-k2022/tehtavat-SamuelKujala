@@ -6,15 +6,9 @@ using System.Threading.Tasks;
 
 namespace LoppuHomma.Controller
 {
-    public class ButtonController 
+    public class ButtonController()
     {
-        public ButtonController()
-        {
-            
-
-        }
-
-        public string FindButton(DateTimeParse datetime, ApiController apiController)
+        public static string FindButton(DateTimeParse datetime)
         {
             DateTime dateTime = datetime.ParseStartDayTxTBox();
             DateTime dateTime2 = datetime.ParseEndDayTxTBox();

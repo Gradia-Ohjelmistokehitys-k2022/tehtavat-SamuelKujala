@@ -15,25 +15,17 @@ using System.Xml;
 
 namespace LoppuHomma.Controller
 {
-    public class ApiController
+    public class ApiController(TextBox textbox1, TextBox textbox2, ComboBox comboBox, DataGridView datagrid)
     {
-        TextBox textbox1 = new TextBox();
-        TextBox textbox2 = new TextBox();
-        ComboBox comboBox = new ComboBox();
-        DataGridView datagrid = new DataGridView();
+        private readonly TextBox textbox1 = textbox1;
+        private readonly TextBox textbox2 = textbox2;
+        private readonly ComboBox comboBox = comboBox;
+        private readonly DataGridView datagrid = datagrid;
 
-        AllButtonsController controller;
+        AllButtonsController? controller;
 
 
-        private static readonly HttpClient client = new HttpClient();
-
-        public ApiController(TextBox textbox1, TextBox textbox2, ComboBox comboBox, DataGridView datagrid)
-        {
-            this.textbox1 = textbox1;
-            this.textbox2 = textbox2;
-            this.comboBox = comboBox;
-            this.datagrid = datagrid;
-        }
+        private static readonly HttpClient client = new();
 
         public async Task<BitcoinData?> ApiValues(string UnixTime1, string UnixTime2)
         {
@@ -55,32 +47,32 @@ namespace LoppuHomma.Controller
             return bitcoinData;
         }
 
-        public BitcoinData GetDataOnlyFromMidnight(BitcoinData? data)
+        public BitcoinData GetDataOnlyFromMidnight(BitcoinData data)
         {
-            var sortedPrices = data.prices.OrderBy(row => Convert.ToInt64(row[0])).ToList();
-            var sortedMarket_caps = data.market_caps.OrderBy(row => Convert.ToInt64(row[0])).ToList();
-            var sortedVolumes = data.total_volumes.OrderBy(row => Convert.ToInt64(row[0])).ToList();
+            var sortedPrices = data.Prices.OrderBy(row => Convert.ToInt64(row[0])).ToList();
+            var sortedMarket_caps = data.Market_caps.OrderBy(row => Convert.ToInt64(row[0])).ToList();
+            var sortedVolumes = data.Total_volumes.OrderBy(row => Convert.ToInt64(row[0])).ToList();
 
             var closestMidnight = SortDataToMidnight(sortedPrices);
 
-            BitcoinData bitcoin = new BitcoinData()
+            BitcoinData bitcoin = new()
             {
-                market_caps = SortDataToMidnight(sortedMarket_caps),
-                prices = SortDataToMidnight(sortedPrices),
-                total_volumes = SortDataToMidnight(sortedVolumes) 
+                Market_caps = SortDataToMidnight(sortedMarket_caps),
+                Prices = SortDataToMidnight(sortedPrices),
+                Total_volumes = SortDataToMidnight(sortedVolumes) 
             };
 
             return bitcoin;
         }
 
-        public List<List<Object>> SortDataToMidnight(List<List<Object>> data)
+        public List<List<Object>> SortDataToMidnight(List<List<object>> data)
         {
             controller = new AllButtonsController(textbox1, textbox2, comboBox, datagrid);
 
-            List<List<object>> ReturnData = new List<List<object>>();
+            List<List<object>> ReturnData = [];
 
             DateTime? previousDate = null;
-            List<object> closestPrice = null;
+            List<object> closestPrice = [];
 
             foreach (var item in data)
             {
@@ -113,19 +105,6 @@ namespace LoppuHomma.Controller
             }
 
             return ReturnData;
-        }
-
-        public void GetLowestAndBiggestVolume(BitcoinData data)
-        {
-           
-           
-        }
-
-
-
-        public void GetLowestAndBiggestMarketCap(BitcoinData data)
-        {
-           
         }
 
     }

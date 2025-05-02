@@ -7,21 +7,13 @@ using System.Threading.Tasks;
 
 namespace LoppuHomma.Controller
 {
-    public class TaskAndTaskB
+    public class TaskAndTaskB(TextBox textbox1, TextBox textbox2, ComboBox comboBox, DataGridView datagrid)
     {
         AllButtonsController? controller;
-        TextBox textbox1 = new TextBox();
-        TextBox textbox2 = new TextBox();
-        ComboBox comboBox = new ComboBox();
-        DataGridView datagrid = new DataGridView();
-
-        public TaskAndTaskB(TextBox textbox1, TextBox textbox2, ComboBox comboBox, DataGridView datagrid)
-        {
-            this.textbox1 = textbox1;
-            this.textbox2 = textbox2;
-            this.comboBox = comboBox;
-            this.datagrid = datagrid;
-        }
+        private readonly TextBox textbox1 = textbox1;
+        private readonly TextBox textbox2 = textbox2;
+        private readonly ComboBox comboBox = comboBox;
+        private readonly DataGridView datagrid = datagrid;
 
         public void CreateRowToTaskAAndB()
         {
@@ -35,13 +27,13 @@ namespace LoppuHomma.Controller
             controller = new AllButtonsController(textbox1, textbox2, comboBox, datagrid);
 
             // Smallest Volume
-            var orderedPricesASC = data.total_volumes.OrderBy(item => item[1]).ToList();
+            var orderedPricesASC = data.Total_volumes.OrderBy(item => item[1]).ToList();
             DateTime small_timestamp = controller.ParseUnixToTimeController(orderedPricesASC[0][0]);
             double small_volume = Convert.ToDouble(orderedPricesASC[0][1]);
 
             // Biggest Volume
 
-            var orderedPricesDESC = data.total_volumes.OrderByDescending(item => item[1]).ToList();
+            var orderedPricesDESC = data.Total_volumes.OrderByDescending(item => item[1]).ToList();
             DateTime biggest_timestamp = controller.ParseUnixToTimeController(orderedPricesDESC[0][0]);
             double biggest_volume = Convert.ToDouble(orderedPricesDESC[1][1]);
 
@@ -54,13 +46,13 @@ namespace LoppuHomma.Controller
             controller = new AllButtonsController(textbox1, textbox2, comboBox, datagrid);
 
             // Smallest Price
-            var orderedPricesASC = data.prices.OrderBy(item => item[1]).ToList();
+            var orderedPricesASC = data.Prices.OrderBy(item => item[1]).ToList();
             DateTime small_timestamp = controller.ParseUnixToTimeController(orderedPricesASC[0][0]);
             double small_price = Convert.ToDouble(orderedPricesASC[0][1]);
 
             // Biggest Price
 
-            var orderedPricesDESC = data.prices.OrderByDescending(item => item[1]).ToList();
+            var orderedPricesDESC = data.Prices.OrderByDescending(item => item[1]).ToList();
             DateTime biggest_timestamp = controller.ParseUnixToTimeController(orderedPricesDESC[0][0]);
             double biggest_price = Convert.ToDouble(orderedPricesDESC[1][1]);
 

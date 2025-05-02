@@ -6,15 +6,11 @@ using System.Threading.Tasks;
 
 namespace LoppuHomma.Controller
 {
-    public class DateTimeParse
+    public class DateTimeParse(TextBox textbox1, TextBox textbox2)
     {
-        TextBox textbox1 = new TextBox();
-        TextBox textbox2 = new TextBox();   
-        public DateTimeParse(TextBox textbox1, TextBox textbox2) 
-        {
-            this.textbox1 = textbox1;
-            this.textbox2 = textbox2;
-        }
+        private readonly TextBox textbox1 = textbox1;
+        private readonly TextBox textbox2 = textbox2;
+
         public DateTime ParseStartDayTxTBox()
         {
             DateTime first = DateTime.Parse(textbox1.Text);
@@ -31,7 +27,7 @@ namespace LoppuHomma.Controller
 
         public string DateTimeToUnix(DateTime dateTime)
         {
-            DateTimeOffset date = new DateTimeOffset(dateTime);
+            DateTimeOffset date = new(dateTime);
             return date.ToUnixTimeSeconds().ToString();
         }
 
