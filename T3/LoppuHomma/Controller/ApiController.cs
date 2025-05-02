@@ -30,11 +30,17 @@ namespace LoppuHomma.Controller
         public async Task<BitcoinData?> ApiValues(string UnixTime1, string UnixTime2)
         {
             controller = new AllButtonsController(textbox1, textbox2, comboBox, datagrid);
+            // Määritetään url
 
             string url = $"https://api.coingecko.com/api/v3/coins/bitcoin/market_chart/range?vs_currency=eur&from={UnixTime1}&to={UnixTime2}";
+
+            // Haetaan tiedot apista ja odotetaan, kunnes pyyntö on saatu päätökseen onnistuneesti
             HttpResponseMessage response = await client.GetAsync(url);
 
+            // Luetaan saatu tieto apista
             string responseBody = await response.Content.ReadAsStringAsync();
+
+            // Muutetaan Json Objekti -> C# Objektiksi
 
             BitcoinData? data = JsonConvert.DeserializeObject<BitcoinData?>(responseBody);
 
@@ -42,6 +48,7 @@ namespace LoppuHomma.Controller
 
             if (data != null)
             {
+                // Haetaan tiedot vain keskiyöltä, eli niin sanottu päivä hinta
                 bitcoinData = GetDataOnlyFromMidnight(data);
             }
             return bitcoinData;
@@ -49,12 +56,12 @@ namespace LoppuHomma.Controller
 
         public BitcoinData GetDataOnlyFromMidnight(BitcoinData data)
         {
+            // Järjestetään jokaisen listan Timestamp samaan järjestykseen.
             var sortedPrices = data.Prices.OrderBy(row => Convert.ToInt64(row[0])).ToList();
             var sortedMarket_caps = data.Market_caps.OrderBy(row => Convert.ToInt64(row[0])).ToList();
             var sortedVolumes = data.Total_volumes.OrderBy(row => Convert.ToInt64(row[0])).ToList();
 
-            var closestMidnight = SortDataToMidnight(sortedPrices);
-
+            // Luodaan uusi Bitcoin objekti ja lisätään tiedot
             BitcoinData bitcoin = new()
             {
                 Market_caps = SortDataToMidnight(sortedMarket_caps),
@@ -74,8 +81,11 @@ namespace LoppuHomma.Controller
             DateTime? previousDate = null;
             List<object> closestPrice = null;
 
+            // Käydään objekti listan tiedot yksitellen läpi
+
             foreach (var item in data)
             {
+                // Muutetaan itemin eka osa Datetimeksi ja toinen osa doubleksi objektista.
                 DateTime timestamp = controller.ParseUnixToTimeController(item[0]);
                 double price = Convert.ToDouble(item[1]);
 
@@ -91,6 +101,10 @@ namespace LoppuHomma.Controller
                 }
                 else
                 {
+                    // Verrantaan 2 aika väliä ja katsotaan kumpi on pienempi
+                    // Etsitään, onko nykyinen aikaleima (timestamp) lähempänä edellistä päivämäärää (previousDate)
+                    // kuin "closestPrice" -arvon aikaleima. Vertailu tehdään minuutteina.
+
                     if (Math.Abs((timestamp - previousDate.Value).TotalMinutes) < Math.Abs((controller.ParseUnixToTimeController(closestPrice[0]) - previousDate.Value).TotalMinutes))
                     {
                         closestPrice = item;

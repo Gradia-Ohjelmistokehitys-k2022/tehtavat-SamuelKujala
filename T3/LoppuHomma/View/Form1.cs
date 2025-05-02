@@ -15,6 +15,8 @@ namespace LoppuHomma
         public Form1()
         {
             InitializeComponent();
+
+            // Lis‰t‰‰n Comboboxiin halutut itemit, jotka haetaan toisesta luokasta
             controller = new AllButtonsController(textBox1, textBox2, comboBox1, dataGridView1);
             controller.AppendItems();
         }
@@ -26,6 +28,7 @@ namespace LoppuHomma
 
         private async void BtnFind_Click(object sender, EventArgs e)
         {
+            // M‰‰ritet‰‰n, jos tarkistukset on true niin suorita ohjelma.
             controller = new AllButtonsController(textBox1, textBox2, comboBox1, dataGridView1);
             if (controller.CheckInsertsForm() == true)
             {

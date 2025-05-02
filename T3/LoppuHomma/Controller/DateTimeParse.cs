@@ -13,6 +13,8 @@ namespace LoppuHomma.Controller
 
         public DateTime ParseStartDayTxTBox()
         {
+            // Muutetaan textbox1 datetimeksi
+
             DateTime first = DateTime.Parse(textbox1.Text);
 
             return first;
@@ -20,6 +22,8 @@ namespace LoppuHomma.Controller
 
         public DateTime ParseEndDayTxTBox()
         {
+            // Muutetaan textbox2 datetimeksi
+            
             DateTime second = DateTime.Parse(textbox2.Text);
 
             return second;
@@ -27,12 +31,14 @@ namespace LoppuHomma.Controller
 
         public string DateTimeToUnix(DateTime dateTime)
         {
+            // Muutetaan Datetime -> Unix time 
             DateTimeOffset date = new(dateTime);
             return date.ToUnixTimeSeconds().ToString();
         }
 
         public DateTime ParseUnixToTime(object unixtime)
         {
+            // Muutetaan unix time -> Datime
             long unix = (long)unixtime;
 
             DateTime date = DateTimeOffset.FromUnixTimeMilliseconds(unix).DateTime;
