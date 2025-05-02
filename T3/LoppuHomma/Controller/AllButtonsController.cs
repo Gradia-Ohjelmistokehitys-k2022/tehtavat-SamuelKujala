@@ -12,8 +12,8 @@ namespace LoppuHomma.Controller
     {
         DateTimeParse? datetime;
         ApiController? apiController;
-        ButtonController? ButtonController;
         TaskAndTaskB? TaskAndTaskB;
+        FormController? formcontroller;
         TaskC? task_C;
         TaskD? task_D;
 
@@ -24,12 +24,12 @@ namespace LoppuHomma.Controller
 
         public async Task FindButtonController()
         {
-            ButtonController = new ButtonController();
+            formcontroller = new FormController(textBox1, textBox2, comboBox, datagrid);
             datetime = new DateTimeParse(textBox1, textBox2);
             apiController = new ApiController(textBox1, textBox2, comboBox, datagrid);
 
 
-            string returnvalue = ButtonController.FindButton(datetime);
+            string returnvalue = formcontroller.FindButton(datetime);
             
             string[] strings = returnvalue.Split(',');
 
@@ -100,7 +100,9 @@ namespace LoppuHomma.Controller
                     ClearAll();
                     break;
                 case 4:
+                    task_D.CreateRowToTaskD();
                     task_D.GetBestDateToSellOrBuy(data);
+                    task_D.GetBestDateToBuyorSell(data);
                     break;
             }
 
@@ -112,6 +114,20 @@ namespace LoppuHomma.Controller
             textBox1.Text = string.Empty;
             textBox2.Text = string.Empty;
             comboBox.SelectedIndex = 0;
+        }
+
+        public void AppendItems()
+        {
+            formcontroller = new FormController(textBox1, textBox2, comboBox, datagrid);
+
+            formcontroller.ComboBoxAppendItems();
+        }
+
+        public bool CheckInsertsForm()
+        {
+            formcontroller = new FormController(textBox1, textBox2, comboBox, datagrid);
+
+             return formcontroller.CheckInserts();
         }
 
     }

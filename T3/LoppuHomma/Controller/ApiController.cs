@@ -72,7 +72,7 @@ namespace LoppuHomma.Controller
             List<List<object>> ReturnData = [];
 
             DateTime? previousDate = null;
-            List<object> closestPrice = [];
+            List<object> closestPrice = null;
 
             foreach (var item in data)
             {

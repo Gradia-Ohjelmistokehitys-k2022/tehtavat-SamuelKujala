@@ -18,7 +18,7 @@ namespace LoppuHomma.Controller
 
         public void CreateRowToTaskC()
         {
-            datagrid.Columns.Add("Tyyppi", "Tyyppi");
+            datagrid.Columns.Add("Tyyppi", "Tyyppi");   
             datagrid.Columns.Add("Pituus", "Pituus");
             datagrid.Columns.Add("Aloitus", "Aloituspäivä");
             datagrid.Columns.Add("Loppu", "Loppupäivä");

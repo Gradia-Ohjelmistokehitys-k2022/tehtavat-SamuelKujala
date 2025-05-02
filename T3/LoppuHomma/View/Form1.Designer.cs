@@ -49,7 +49,7 @@
             button1.Name = "button1";
             button1.Size = new Size(107, 38);
             button1.TabIndex = 0;
-            button1.Text = "button1";
+            button1.Text = "Suorita";
             button1.UseVisualStyleBackColor = true;
             button1.Click += BtnFind_Click;
             // 
@@ -140,7 +140,7 @@
             Controls.Add(panel1);
             Margin = new Padding(4, 5, 4, 5);
             Name = "Form1";
-            Text = "Form1";
+            Text = "Coingecko";
             Load += Form1_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
