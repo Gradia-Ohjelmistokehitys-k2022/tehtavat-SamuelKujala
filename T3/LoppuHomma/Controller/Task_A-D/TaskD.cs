@@ -72,7 +72,7 @@ namespace LoppuHomma.Controller.Task_A_C
 
             // Lisätään arvot DataGridViewiin
 
-            datagrid.Rows.Add("Paras aika ostaa", $"{buyDate:dd.MM.yyyy}", $"{profit:f2} €");
+            datagrid.Rows.Add("Paras aika ostaa", $"{buyDate:dd.MM.yyyy}", $"{minPrice:f2} €");
             datagrid.Rows.Add("Paras aika myydä", $"{sellDate:dd.MM.yyyy}", $"{profit + minPrice:f2} €");
             datagrid.Rows.Add("Voitto", "-", $"{profit:F2} €");
         }
