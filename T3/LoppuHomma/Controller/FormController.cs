@@ -81,7 +81,7 @@ namespace LoppuHomma.Controller
             DateTime dateTime = datetime.ParseStartDayTxTBox();
             DateTime dateTime2 = datetime.ParseEndDayTxTBox();
 
-            // Muutetaan muutetut päivämäärät unix time muotoon.
+            // Muutetaan muutetut päivämäärät unix time muotoon ja palautetaan ne.
 
             string unixTime1 = datetime.DateTimeToUnix(dateTime);
             string unixTime2 = datetime.DateTimeToUnix(dateTime2);

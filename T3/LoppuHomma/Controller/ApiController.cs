@@ -101,9 +101,9 @@ namespace LoppuHomma.Controller
                 }
                 else
                 {
-                    // Verrantaan 2 aika väliä ja katsotaan kumpi on pienempi
-                    // Etsitään, onko nykyinen aikaleima (timestamp) lähempänä edellistä päivämäärää (previousDate)
-                    // kuin "closestPrice" -arvon aikaleima. Vertailu tehdään minuutteina.
+                    // Verrantaan 2 aika väliä keskenään
+                    // Etsitään, onko nykyinen aikaleima pienempi
+                    // Vertailu tehdään minuutteina.
 
                     if (Math.Abs((timestamp - previousDate.Value).TotalMinutes) < Math.Abs((controller.ParseUnixToTimeController(closestPrice[0]) - previousDate.Value).TotalMinutes))
                     {

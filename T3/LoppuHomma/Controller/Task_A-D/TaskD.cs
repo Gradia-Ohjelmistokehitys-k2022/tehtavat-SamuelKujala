@@ -27,6 +27,8 @@ namespace LoppuHomma.Controller.Task_A_C
         {
             controller = new AllButtonsController(textbox1, textbox2, comboBox, datagrid);
 
+            // Järjestetään lista pienimmästä suurimpaan
+
             var lowestPrice_List = data.Prices.OrderBy(item => item[1]).ToList();
             double minPrice = Convert.ToDouble(lowestPrice_List[0][1]);
             long minTimestamp = Convert.ToInt64(lowestPrice_List[0][0]);
@@ -35,6 +37,8 @@ namespace LoppuHomma.Controller.Task_A_C
             double profit = 0;
             long buyTime = minTimestamp;
             long sellTime = minTimestamp;
+
+            // Käydään data.prices läpi foreach silmukalla
 
             foreach (var item in data.Prices)
             {
@@ -60,10 +64,13 @@ namespace LoppuHomma.Controller.Task_A_C
                 }
             }
 
+            // Muutetaan arvot datetimeksi ja talletaan uusi profit
 
             DateTime buyDate = controller.ParseUnixToTimeController(buyTime);
             DateTime sellDate = controller.ParseUnixToTimeController(sellTime);
             profit = maxProfit;
+
+            // Lisätään arvot DataGridViewiin
 
             datagrid.Rows.Add("Paras aika ostaa", $"{buyDate:dd.MM.yyyy}", $"{profit:f2} €");
             datagrid.Rows.Add("Paras aika myydä", $"{sellDate:dd.MM.yyyy}", $"{profit + minPrice:f2} €");
@@ -74,6 +81,8 @@ namespace LoppuHomma.Controller.Task_A_C
         {
             controller = new AllButtonsController(textbox1, textbox2, comboBox, datagrid);
 
+            // Järjestetään lista suurimmasta pienimpään
+
             var biggestPrice_List = data.Prices.OrderByDescending(item => item[1]).ToList();
             double MaxPrice = Convert.ToDouble(biggestPrice_List[0][1]);
             long maxTimestamp = Convert.ToInt64(biggestPrice_List[0][0]);
@@ -82,6 +91,8 @@ namespace LoppuHomma.Controller.Task_A_C
             double profit = 0;
             long buyTime = maxTimestamp;
             long sellTime = maxTimestamp;
+
+            // Käydään data.prices läpi foreach silmukalla
 
             foreach (var item in data.Prices)
             {
@@ -107,11 +118,12 @@ namespace LoppuHomma.Controller.Task_A_C
                 }
             }
 
-
+            // Muutetaan arvot datetimeksi ja talletaan uusi profit
             DateTime buyDate = controller.ParseUnixToTimeController(buyTime);
             DateTime sellDate = controller.ParseUnixToTimeController(sellTime);
             profit = maxProfit;
 
+            // Lisätään arvot DataGridViewiin
 
             datagrid.Rows.Add("Paras aika myydä", $"{sellDate:dd.MM.yyyy}", $"{MaxPrice:f2} €");
             datagrid.Rows.Add("Paras aika ostaa", $"{buyDate:dd.MM.yyyy}", $"{profit:f2} €");

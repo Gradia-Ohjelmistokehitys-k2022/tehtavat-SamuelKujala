@@ -28,8 +28,10 @@ namespace LoppuHomma.Controller
         {
             controller = new AllButtonsController(textbox1, textbox2, comboBox, datagrid);
 
+            // Määritetään muuttujat 
+
             DateTime? Current_StartingDate = null;
-            double? Current_volume = null;
+            double? Current_price = null;
             int Current_streak = 0;
 
             int Top_Streak = 0;
@@ -39,17 +41,23 @@ namespace LoppuHomma.Controller
 
             foreach (var item in data.Prices)
             {
+                // Määritetää itemin eka osa eli 0 -> Datetimeksi ja sitä ennen parsetaan se.
+                // Toinen osa doubleksi eli hinnaksi
                 DateTime timestamp = controller.ParseUnixToTimeController(item[0]);
-                double volume = Convert.ToDouble(item[1]);
+                double price = Convert.ToDouble(item[1]);
 
-                if (Current_volume == null)
+                // Jos Current price on tyhjä määritetään Current arvot
+                if (Current_price == null)
                 {
                     Current_StartingDate = timestamp;
-                    Current_volume = volume;
+                    Current_price = price;
                 }
-                else if (Current_volume.HasValue)
+
+                // Tarkistetaan, onhal current pricella arvo
+
+                else if (Current_price.HasValue)
                 {
-                    if (Current_volume > volume)
+                    if (Current_price > price)
                     {
                         if (Top_Streak < Current_streak)
                         {
@@ -57,17 +65,20 @@ namespace LoppuHomma.Controller
                             Top_StartingDate = Current_StartingDate;
                             Top_EndingDate = timestamp;
                         }
-                        Current_volume = volume;
+                        Current_price = price;
                         Current_streak = 0;
                         Current_StartingDate = timestamp;
                     }
-                    else if (Current_volume < volume)
+                    else if (Current_price < price)
                     {
                         Current_streak += 1;
-                        Current_volume = volume;
+                        Current_price = price;
                     }
                 }
             }
+
+            // Lopuksi tarkistetaan, onko Current Streak isompi kuin total streak jos on muutetaan arvoja
+
             if (Current_streak > Top_Streak)
             {
                 Top_Streak = Current_streak;
@@ -75,6 +86,7 @@ namespace LoppuHomma.Controller
                 Top_EndingDate = controller.ParseUnixToTimeController(data.Prices.Last()[0]);
             }
 
+            // Lisätään tiedot datagridviewiin
             datagrid.Rows.Add("Hinta lasku:", Top_Streak.ToString(), Top_StartingDate?.ToString("yyyy-MM-dd"), Top_EndingDate?.ToString("yyyy-MM-dd"));
         }
 
@@ -83,7 +95,7 @@ namespace LoppuHomma.Controller
             controller = new AllButtonsController(textbox1, textbox2, comboBox, datagrid);
 
             DateTime? Current_StartingDate = null;
-            double? Current_volume = null;
+            double? Current_price = null;
             int Current_streak = 0;
 
             int Top_Streak = 0;
@@ -93,17 +105,25 @@ namespace LoppuHomma.Controller
 
             foreach (var item in data.Prices)
             {
-                DateTime timestamp = controller.ParseUnixToTimeController(item[0]);
-                double volume = Convert.ToDouble(item[1]);
+                // Määritetää itemin eka osa eli 0 -> Datetimeksi ja sitä ennen parsetaan se.
+                // Toinen osa doubleksi eli hinnaksi
 
-                if (Current_volume == null)
+                DateTime timestamp = controller.ParseUnixToTimeController(item[0]);
+                double price = Convert.ToDouble(item[1]);
+
+                // Jos Current price on tyhjä määritetään Current arvot
+
+                if (Current_price == null)
                 {
                     Current_StartingDate = timestamp;
-                    Current_volume = volume;
+                    Current_price = price;
                 }
-                else if (Current_volume.HasValue)
+
+                // Tarkistetaan, onhal current pricella arvo
+
+                else if (Current_price.HasValue)
                 {
-                    if (Current_volume < volume)
+                    if (Current_price < price)
                     {
                         if (Top_Streak > Current_streak)
                         {
@@ -111,23 +131,28 @@ namespace LoppuHomma.Controller
                             Top_StartingDate = Current_StartingDate;
                             Top_EndingDate = timestamp;
                         }
-                        Current_volume = volume;
+                        Current_price = price;
                         Current_streak = 0;
                         Current_StartingDate = timestamp;
                     }
-                    else if (Current_volume > volume)
+                    else if (Current_price > price)
                     {
                         Current_streak += 1;
-                        Current_volume = volume;
+                        Current_price = price;
                     }
                 }
             }
+
+            // Lopuksi tarkistetaan, onko Current Streak isompi kuin total streak jos on muutetaan arvoja
+
             if (Current_streak > Top_Streak)
             {
                 Top_Streak = Current_streak;
                 Top_StartingDate = Current_StartingDate;
                 Top_EndingDate = controller.ParseUnixToTimeController(data.Prices.Last()[0]);
             }
+
+            // Lisätään tiedot datagridviewiin
 
             datagrid.Rows.Add("Hinta nousu:", Top_Streak.ToString(), Top_StartingDate?.ToString("yyyy-MM-dd"), Top_EndingDate?.ToString("yyyy-MM-dd"));
         }

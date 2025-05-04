@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace LoppuHomma.Controller
 {
+    // AllbuttonsController hoitaa kaikki käsittelyt per jokainen luokka
     public class AllButtonsController(TextBox TextBox1, TextBox TextBox2, ComboBox ComboBox, DataGridView Datagrid)
     {
         DateTimeParse? datetime;
@@ -28,11 +29,13 @@ namespace LoppuHomma.Controller
             datetime = new DateTimeParse(textBox1, textBox2);
             apiController = new ApiController(textBox1, textBox2, comboBox, datagrid);
 
-
+            // Määritetään return value, eli unixtimestamp
             string returnvalue = formcontroller.FindButton(datetime);
             
+            // Jaetaan 2 arvoa pilkunperusteela
             string[] strings = returnvalue.Split(',');
 
+            // Haetaan apin data 
             BitcoinData? data = await apiController.ApiValues(strings[0], strings[1]);
 
             if (data == null)
@@ -75,6 +78,8 @@ namespace LoppuHomma.Controller
 
         public void GetThingWhatWantToDo(BitcoinData data)
         {
+            // Määritetään Switch Case, joka määrittyy comboboxissa valitun itemin mukaan.
+            // Suoritetaan sitten määritetty juttu
             TaskAndTaskB = new TaskAndTaskB(textBox1, textBox2, comboBox, datagrid);
             task_C = new TaskC(textBox1, textBox2, comboBox, datagrid);
             task_D = new TaskD(textBox1, textBox2, comboBox, datagrid);
@@ -103,6 +108,7 @@ namespace LoppuHomma.Controller
                     task_D.CreateRowToTaskD();
                     task_D.GetBestDateToSellOrBuy(data);
                     task_D.GetBestDateToBuyorSell(data);
+                    ClearAll();
                     break;
             }
 
@@ -111,6 +117,7 @@ namespace LoppuHomma.Controller
 
         public void ClearAll()
         {
+            // Tyhjennetään textboxit ja comboboxin valinta
             textBox1.Text = string.Empty;
             textBox2.Text = string.Empty;
             comboBox.SelectedIndex = 0;
